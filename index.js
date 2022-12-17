@@ -1,5 +1,5 @@
 
-import {saveTask, getTasks,onGetTasks, deleteTask,getTask, updateTask  } from'./firebase.js'
+import {saveTask, getTasks,onGetTasks, deleteTask,getTask, updateTask, } from'./firebase.js'
 const taskForm = document.getElementById('task-form')
  const tasksContainer = document.getElementById('tasks-container')
 
@@ -18,12 +18,13 @@ window.addEventListener ('DOMContentLoaded', async () => {
    const task =doc.data()
    console.log(doc.id)
     html += ` 
-    <div> 
+    <div class ="card card-body mt-2 border-primary"> 
         <h3>${task.title}</h3>
         <p>${task.description}</p>
-        <button class ='btn-delete'data-id ="${doc.id}">Delete</button>
-        <button class ='btn-'data-id ="${doc.id}">Edit</button>
-        
+        <div>
+        <button class =' btn btn-primary btn-delete'data-id ="${doc.id}">Delete</button>
+        <button class =' btn btn-secundary btn-edit'data-id ="${doc.id}">Edit</button>
+        </div>
     </div>
     `
     
@@ -46,6 +47,7 @@ btnsEdit.forEach((btn) => {
 
      taskForm['task-title'].value = task.title
      taskForm['task-description'].value = task.description
+
      editStatus  = true
      id = doc.id
      taskForm['btn-task-save'].innerTex = 'update'
@@ -62,12 +64,13 @@ taskForm.addEventListener('submit',(e)  => {
    const description = taskForm['task-description']
    
    if (!editStatus) { 
-  }else{ 
-    updateTask(id, title.value, description.value)
-
-editStatus = false
- 
     saveTask(title.value, description.value)
+
+  }else{ 
+    updateTask(id, { title: title.value, description: description.value
+    })
+editStatus = false
+
   }
 
    saveTask(title.value, description.value)
